@@ -27,12 +27,10 @@ Add the following to your `.pre-commit-config.yaml` file:
 
 ```yaml
 repos:
-  - repo: https://github.com/radix-ai/auto-smart-commit
-    rev: v1.0.2
+  - repo: https://github.com/Dufran/auto-smart-commit
+    rev: v1.0.0
     hooks:
       - id: auto-smart-commit
-      # Optional argument to enable time tracking behavior
-      args: [--time-tracking]
 ```
 
 and make sure to run `pre-commit install --hook-type prepare-commit-msg` to install the hook type necessary for this hook.
