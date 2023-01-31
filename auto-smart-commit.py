@@ -4,8 +4,9 @@ import re
 import sys
 from datetime import datetime
 from math import floor
+import argparse
 from subprocess import check_output
-from typing import NoReturn, Optional
+from typing import NoReturn, Optional, Sequence
 
 
 def run_command(command: str) -> str:
@@ -82,9 +83,15 @@ def time_worked_on_commit() -> Optional[str]:
     return None
 
 
-def main() -> NoReturn:
+def main(argv: Sequence[str] | None = None) -> NoReturn:
     # https://confluence.atlassian.com/fisheye/using-smart-commits-960155400.html
     # Exit if the branch name does not contain a Jira issue key.
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--time-tracking',
+        help='Optional time tracking argument',
+    )
+    args = parser.parse_args(argv)
     git_branch_name = current_git_branch_name()
     jira_issue_key = extract_jira_issue_key(git_branch_name)
     if not jira_issue_key:
@@ -104,10 +111,11 @@ def main() -> NoReturn:
     if "#comment" not in commit_msg and commit_body:
         commit_body = f"{jira_issue_key} #comment {commit_body}"
     # 2. Add the time worked to the Work Log in the commit body.
-    work_time = time_worked_on_commit()
-    if "#time" not in commit_msg and work_time:
-        work_log = f"{jira_issue_key} #time {work_time} {commit_subject}"
-        commit_body = f"{commit_body}\n\n{work_log}" if commit_body else work_log
+    if args.time_tracking:
+        work_time = time_worked_on_commit()
+        if "#time" not in commit_msg and work_time:
+            work_log = f"{jira_issue_key} #time {work_time} {commit_subject}"
+            commit_body = f"{commit_body}\n\n{work_log}" if commit_body else work_log
     # 3. Make sure the subject starts with a Jira issue key.
     if not extract_jira_issue_key(commit_subject):
         commit_subject = f"{jira_issue_key} {commit_subject}"

@@ -31,6 +31,8 @@ repos:
     rev: v1.0.2
     hooks:
       - id: auto-smart-commit
+      # Optional argument to enable time tracking behavior
+      args: [--time-tracking]
 ```
 
 and make sure to run `pre-commit install --hook-type prepare-commit-msg` to install the hook type necessary for this hook.
