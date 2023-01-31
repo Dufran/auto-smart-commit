@@ -1,12 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import re
 import sys
-from datetime import datetime
-from math import floor
-import argparse
 from subprocess import check_output
-from typing import NoReturn, Optional, Sequence
+from typing import NoReturn, Optional
 
 
 def run_command(command: str) -> str:
