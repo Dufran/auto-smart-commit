@@ -28,7 +28,7 @@ Add the following to your `.pre-commit-config.yaml` file:
 ```yaml
 repos:
   - repo: https://github.com/Dufran/auto-smart-commit
-    rev: v1.0.0
+    rev: v1.0.1
     hooks:
       - id: auto-smart-commit
 ```
